@@ -15,7 +15,7 @@ CXX           = aarch64-poky-linux-g++
 DEFINES       = -DLAW_RAM -DQT_QML_DEBUG
 CFLAGS        = -pipe --sysroot=/opt/fsl-imx-xwayland/4.14-sumo/sysroots/aarch64-poky-linux -g -Wall -W -fPIC $(DEFINES)
 CXXFLAGS      = -pipe --sysroot=/opt/fsl-imx-xwayland/4.14-sumo/sysroots/aarch64-poky-linux -g -Wall -W -fPIC $(DEFINES)
-INCPATH       = -I. -Iplatform -IVL53L5CX-driver/inc -I /opt/fsl-imx-xwayland/4.14-sumo/sysroots/x86_64-pokysdk-linux/usr/lib/aarch64-poky-linux/gcc/aarch64-poky-linux/7.3.0/include -I /opt/fsl-imx-xwayland/4.14-sumo/sysroots/aarch64-poky-linux/usr/include -I /opt/fsl-imx-xwayland/4.14-sumo/sysroots/aarch64-poky-linux/usr/include/c++/7.3.0 -I/opt/fsl-imx-xwayland/4.14-sumo/sysroots/aarch64-poky-linux/usr/lib -I/opt/fsl-imx-xwayland/4.14-sumo/sysroots/aarch64-poky-linux/usr/lib/qt5/mkspecs/linux-oe-g++
+INCPATH       = -I. -Iplatform -Ivl53L5CX-driver/inc -I /opt/fsl-imx-xwayland/4.14-sumo/sysroots/x86_64-pokysdk-linux/usr/lib/aarch64-poky-linux/gcc/aarch64-poky-linux/7.3.0/include -I /opt/fsl-imx-xwayland/4.14-sumo/sysroots/aarch64-poky-linux/usr/include -I /opt/fsl-imx-xwayland/4.14-sumo/sysroots/aarch64-poky-linux/usr/include/c++/7.3.0 -I/opt/fsl-imx-xwayland/4.14-sumo/sysroots/aarch64-poky-linux/usr/lib -I/opt/fsl-imx-xwayland/4.14-sumo/sysroots/aarch64-poky-linux/usr/lib/qt5/mkspecs/linux-oe-g++
 QMAKE         = /opt/fsl-imx-xwayland/4.14-sumo/sysroots/x86_64-pokysdk-linux/usr/bin/qt5/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -52,10 +52,10 @@ OBJECTS_DIR   = ./
 
 SOURCES       = main.c \
 		platform/platform.c \
-		VL53L5CX-driver/src/vl53l5cx_api.c \
-		VL53L5CX-driver/src/vl53l5cx_plugin_detection_thresholds.c \
-		VL53L5CX-driver/src/vl53l5cx_plugin_motion_indicator.c \
-		VL53L5CX-driver/src/vl53l5cx_plugin_xtalk.c 
+		vl53L5CX-driver/src/vl53l5cx_api.c \
+		vl53L5CX-driver/src/vl53l5cx_plugin_detection_thresholds.c \
+		vl53L5CX-driver/src/vl53l5cx_plugin_motion_indicator.c \
+		vl53L5CX-driver/src/vl53l5cx_plugin_xtalk.c 
 OBJECTS       = main.o \
 		platform.o \
 		vl53l5cx_api.o \
@@ -226,16 +226,16 @@ DIST          = /opt/fsl-imx-xwayland/4.14-sumo/sysroots/aarch64-poky-linux/usr/
 		/opt/fsl-imx-xwayland/4.14-sumo/sysroots/aarch64-poky-linux/usr/lib/qt5/mkspecs/features/lex.prf \
 		ST_Test.pro platform/platform.h \
 		platform/types.h \
-		VL53L5CX-driver/inc/vl53l5cx_api.h \
-		VL53L5CX-driver/inc/vl53l5cx_buffers.h \
-		VL53L5CX-driver/inc/vl53l5cx_plugin_detection_thresholds.h \
-		VL53L5CX-driver/inc/vl53l5cx_plugin_motion_indicator.h \
-		VL53L5CX-driver/inc/vl53l5cx_plugin_xtalk.h main.c \
+		vl53L5CX-driver/inc/vl53l5cx_api.h \
+		vl53L5CX-driver/inc/vl53l5cx_buffers.h \
+		vl53L5CX-driver/inc/vl53l5cx_plugin_detection_thresholds.h \
+		vl53L5CX-driver/inc/vl53l5cx_plugin_motion_indicator.h \
+		vl53L5CX-driver/inc/vl53l5cx_plugin_xtalk.h main.c \
 		platform/platform.c \
-		VL53L5CX-driver/src/vl53l5cx_api.c \
-		VL53L5CX-driver/src/vl53l5cx_plugin_detection_thresholds.c \
-		VL53L5CX-driver/src/vl53l5cx_plugin_motion_indicator.c \
-		VL53L5CX-driver/src/vl53l5cx_plugin_xtalk.c
+		vl53L5CX-driver/src/vl53l5cx_api.c \
+		vl53L5CX-driver/src/vl53l5cx_plugin_detection_thresholds.c \
+		vl53L5CX-driver/src/vl53l5cx_plugin_motion_indicator.c \
+		vl53L5CX-driver/src/vl53l5cx_plugin_xtalk.c
 QMAKE_TARGET  = ST_Test
 DESTDIR       = 
 TARGET        = ST_Test
@@ -617,7 +617,7 @@ compiler_clean:
 
 ####### Compile
 
-main.o: main.c VL53L5CX-driver/inc/vl53l5cx_api.h \
+main.o: main.c vl53L5CX-driver/inc/vl53l5cx_api.h \
 		platform/platform.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o main.o main.c
 
@@ -625,25 +625,25 @@ platform.o: platform/platform.c platform/platform.h \
 		platform/types.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o platform.o platform/platform.c
 
-vl53l5cx_api.o: VL53L5CX-driver/src/vl53l5cx_api.c VL53L5CX-driver/inc/vl53l5cx_api.h \
+vl53l5cx_api.o: vl53L5CX-driver/src/vl53l5cx_api.c vl53L5CX-driver/inc/vl53l5cx_api.h \
 		platform/platform.h \
-		VL53L5CX-driver/inc/vl53l5cx_buffers.h
-	$(CC) -c $(CFLAGS) $(INCPATH) -o vl53l5cx_api.o VL53L5CX-driver/src/vl53l5cx_api.c
+		vl53L5CX-driver/inc/vl53l5cx_buffers.h
+	$(CC) -c $(CFLAGS) $(INCPATH) -o vl53l5cx_api.o vl53L5CX-driver/src/vl53l5cx_api.c
 
-vl53l5cx_plugin_detection_thresholds.o: VL53L5CX-driver/src/vl53l5cx_plugin_detection_thresholds.c VL53L5CX-driver/inc/vl53l5cx_plugin_detection_thresholds.h \
-		VL53L5CX-driver/inc/vl53l5cx_api.h \
+vl53l5cx_plugin_detection_thresholds.o: vl53L5CX-driver/src/vl53l5cx_plugin_detection_thresholds.c vl53L5CX-driver/inc/vl53l5cx_plugin_detection_thresholds.h \
+		vl53L5CX-driver/inc/vl53l5cx_api.h \
 		platform/platform.h
-	$(CC) -c $(CFLAGS) $(INCPATH) -o vl53l5cx_plugin_detection_thresholds.o VL53L5CX-driver/src/vl53l5cx_plugin_detection_thresholds.c
+	$(CC) -c $(CFLAGS) $(INCPATH) -o vl53l5cx_plugin_detection_thresholds.o vl53L5CX-driver/src/vl53l5cx_plugin_detection_thresholds.c
 
-vl53l5cx_plugin_motion_indicator.o: VL53L5CX-driver/src/vl53l5cx_plugin_motion_indicator.c VL53L5CX-driver/inc/vl53l5cx_plugin_motion_indicator.h \
-		VL53L5CX-driver/inc/vl53l5cx_api.h \
+vl53l5cx_plugin_motion_indicator.o: vl53L5CX-driver/src/vl53l5cx_plugin_motion_indicator.c vl53L5CX-driver/inc/vl53l5cx_plugin_motion_indicator.h \
+		vl53L5CX-driver/inc/vl53l5cx_api.h \
 		platform/platform.h
-	$(CC) -c $(CFLAGS) $(INCPATH) -o vl53l5cx_plugin_motion_indicator.o VL53L5CX-driver/src/vl53l5cx_plugin_motion_indicator.c
+	$(CC) -c $(CFLAGS) $(INCPATH) -o vl53l5cx_plugin_motion_indicator.o vl53L5CX-driver/src/vl53l5cx_plugin_motion_indicator.c
 
-vl53l5cx_plugin_xtalk.o: VL53L5CX-driver/src/vl53l5cx_plugin_xtalk.c VL53L5CX-driver/inc/vl53l5cx_plugin_xtalk.h \
-		VL53L5CX-driver/inc/vl53l5cx_api.h \
+vl53l5cx_plugin_xtalk.o: vl53L5CX-driver/src/vl53l5cx_plugin_xtalk.c vl53L5CX-driver/inc/vl53l5cx_plugin_xtalk.h \
+		vl53L5CX-driver/inc/vl53l5cx_api.h \
 		platform/platform.h
-	$(CC) -c $(CFLAGS) $(INCPATH) -o vl53l5cx_plugin_xtalk.o VL53L5CX-driver/src/vl53l5cx_plugin_xtalk.c
+	$(CC) -c $(CFLAGS) $(INCPATH) -o vl53l5cx_plugin_xtalk.o vl53L5CX-driver/src/vl53l5cx_plugin_xtalk.c
 
 ####### Install
 

@@ -79,11 +79,12 @@ typedef struct
 {
 	/* To be filled with customer's platform. At least an I2C address/descriptor
 	 * needs to be added */
-	/* Example for most standard platform : I2C address of sensor */
-	uint16_t  			address;
+	/* Example for most standard platform : I2C address of sensor */    
+    uint16_t  			address;
+
 
 	/* For Linux implementation, file descriptor */
-	int fd;
+    int fd;
 
 } VL53L5CX_Platform;
 
@@ -162,6 +163,11 @@ uint8_t RdByte(
  * @param (uint8_t) value : Pointer of value to write.
  * @return (uint8_t) status : 0 if OK
  */
+uint8_t i2cWrByte(
+        int fd,
+        uint16_t i2c_addr,
+        uint16_t reg_address,
+        uint8_t value);
 
 uint8_t WrByte(
 		VL53L5CX_Platform * p_platform,
@@ -237,7 +243,9 @@ uint8_t WaitMs(
 
 /**
  * @brief I2C communication channel initialization
- * @param (int) *fd : pointer on a I2C channel descriptor.
+ * @param (VL53L5CX_Platform) *p_platform : pointer on a I2C device descriptor.
+ * @param uint16_t addr - 8 bit address on the I2C bus
+ * @param const char* p_i2cbusName - for example "/dev/i2c-0"
  * @return (uint8_t) status : 0 if OK
  */
 int32_t vl53l5cx_comms_init(VL53L5CX_Platform * p_platform, uint16_t addr);
@@ -249,5 +257,14 @@ int32_t vl53l5cx_comms_init(VL53L5CX_Platform * p_platform, uint16_t addr);
  * @return (uint8_t) status : 0 if OK
  */
 int32_t vl53l5cx_comms_close(VL53L5CX_Platform * p_platform);
+
+
+/**
+ * @brief General I2C communication channel initialization
+ * @param (int) *fd : pointer on a I2C channel descriptor
+ * @param const char* p_i2cbusName - forexample "/dev/i2c-0"
+ * @return (uint8_t) status : 0 if OK
+ */
+int32_t i2c_comms_init(int* fd, const char* p_i2cbusName);
 
 #endif	// _PLATFORM_H_

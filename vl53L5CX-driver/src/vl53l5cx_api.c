@@ -60,8 +60,8 @@
 *
 *******************************************************************************/
 
-#include "/opt/fsl-imx-xwayland/4.14-sumo/sysroots/aarch64-poky-linux/usr/include/stdlib.h" //#include <stdlib.h>
-#include "/opt/fsl-imx-xwayland/4.14-sumo/sysroots/aarch64-poky-linux/usr/include/string.h"//#include <string.h>
+#include <stdlib.h>
+#include <string.h>
 #include "vl53l5cx_api.h"
 #include "vl53l5cx_buffers.h"
 
@@ -287,7 +287,7 @@ uint8_t vl53l5cx_is_alive(
 }
 
 uint8_t vl53l5cx_init(
-		VL53L5CX_Configuration		*p_dev)
+        VL53L5CX_Configuration		*p_dev)
 {
 	uint8_t tmp, status = VL53L5CX_STATUS_OK;
 	uint8_t pipe_ctrl[] = {VL53L5CX_NB_TARGET_PER_ZONE, 0x00, 0x01, 0x00};
@@ -297,22 +297,22 @@ uint8_t vl53l5cx_init(
 	p_dev->default_configuration = (uint8_t*)VL53L5CX_DEFAULT_CONFIGURATION;
 
 	/* SW reboot sequence */
-	status |= WrByte(&(p_dev->platform), 0x7fff, 0x00);
-	status |= WrByte(&(p_dev->platform), 0x0009, 0x04);
-	status |= WrByte(&(p_dev->platform), 0x000F, 0x40);
-	status |= WrByte(&(p_dev->platform), 0x000A, 0x03);
-	status |= RdByte(&(p_dev->platform), 0x7FFF, &tmp);
-	status |= WrByte(&(p_dev->platform), 0x000C, 0x01);
+    status |= WrByte(&(p_dev->platform), 0x7fff, 0x00);
+    status |= WrByte(&(p_dev->platform), 0x0009, 0x04);
+    status |= WrByte(&(p_dev->platform), 0x000F, 0x40);
+    status |= WrByte(&(p_dev->platform), 0x000A, 0x03);
+    status |= RdByte(&(p_dev->platform), 0x7FFF, &tmp);
+    status |= WrByte(&(p_dev->platform), 0x000C, 0x01);
 
-	status |= WrByte(&(p_dev->platform), 0x0101, 0x00);
-	status |= WrByte(&(p_dev->platform), 0x0102, 0x00);
-	status |= WrByte(&(p_dev->platform), 0x010A, 0x01);
-	status |= WrByte(&(p_dev->platform), 0x4002, 0x01);
-	status |= WrByte(&(p_dev->platform), 0x4002, 0x00);
-	status |= WrByte(&(p_dev->platform), 0x010A, 0x03);
-	status |= WrByte(&(p_dev->platform), 0x0103, 0x01);
-	status |= WrByte(&(p_dev->platform), 0x000C, 0x00);
-	status |= WrByte(&(p_dev->platform), 0x000F, 0x43);
+    status |= WrByte(&(p_dev->platform), 0x0101, 0x00);
+    status |= WrByte(&(p_dev->platform), 0x0102, 0x00);
+    status |= WrByte(&(p_dev->platform), 0x010A, 0x01);
+    status |= WrByte(&(p_dev->platform), 0x4002, 0x01);
+    status |= WrByte(&(p_dev->platform), 0x4002, 0x00);
+    status |= WrByte(&(p_dev->platform), 0x010A, 0x03);
+    status |= WrByte(&(p_dev->platform), 0x0103, 0x01);
+    status |= WrByte(&(p_dev->platform), 0x000C, 0x00);
+    status |= WrByte(&(p_dev->platform), 0x000F, 0x43);
 	status |= WaitMs(&(p_dev->platform), 1);
 
 	status |= WrByte(&(p_dev->platform), 0x000F, 0x40);
@@ -517,7 +517,7 @@ uint8_t vl53l5cx_start_ranging(
 {
 	uint8_t resolution, status = VL53L5CX_STATUS_OK;
 	uint16_t tmp;
-	uint32_t i;
+    uint32_t i;
 	uint32_t header_config[2] = {0, 0};
 
 	union Block_header *bh_ptr;

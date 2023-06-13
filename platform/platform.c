@@ -93,31 +93,39 @@ struct comms_struct {
 };
 #endif
 
+int32_t i2c_comms_init(int* fd, const char* p_i2cbusName)
+{
+    fd = open(p_i2cbusName, O_RDONLY);
+    if (fd == -1) {
+        LOG("Failed to open device\n");
+        return VL53L5CX_COMMS_ERROR;
+    }
+
+    LOG("Opened I2C BUS FileDesc. Number = %d\n", fd);
+
+    return 0;
+}
+
 int32_t vl53l5cx_comms_init(VL53L5CX_Platform * p_platform, uint16_t addr)
 {
 
 #ifdef STMVL53L5CX_KERNEL
-	p_platform->fd = open("/dev/stmvl53l5cx", O_RDONLY);
-	if (p_platform->fd == -1) {
-		LOG("Failed to open /dev/stmvl53l5cx\n");
-		return VL53L5CX_COMMS_ERROR;
-	}
+    p_platform->fd = open("/dev/stmvl53l5cx", O_RDONLY);
+    if (p_platform->fd == -1) {
+        LOG("Failed to open /dev/stmvl53l5cx\n");
+        return VL53L5CX_COMMS_ERROR;
+    }
 #else
 	/* Create sensor at default i2c address */
     p_platform->address = addr;
-    p_platform->fd = open("/dev/i2c-0", O_RDONLY);
-	if (p_platform->fd == -1) {
-		LOG("Failed to open device\n");
-		return VL53L5CX_COMMS_ERROR;
-	}
 
-    if (ioctl(p_platform->fd, I2C_SLAVE_FORCE, p_platform->address) <0) {/*I2C_SLAVE_FORCE*/
+    if (ioctl(p_platform->fd, I2C_SLAVE_FORCE, p_platform->address) < 0) {/*I2C_SLAVE_FORCE*/
         LOG("vl53l5cx_comms_init() Could not speak to the device on the i2c bus\n");
 		return VL53L5CX_COMMS_ERROR;
 	}
 #endif
 
-	LOG("Opened ST TOF Dev = %d\n", p_platform->fd);
+    LOG(" vl53l5cx_comms_init() on address %d success \n", addr);
 
 	return 0;
 }
@@ -243,7 +251,16 @@ uint8_t WrByte(
 		uint16_t reg_address,
 		uint8_t value)
 {
-	return(write_multi(p_platform->fd, p_platform->address, reg_address, &value, 1));
+    return(write_multi(p_platform->fd, p_platform->address, reg_address, &value, 1));
+}
+
+uint8_t i2cWrByte(
+        int fd,
+        uint16_t i2c_addr,
+        uint16_t reg_address,
+        uint8_t value)
+{
+    return(write_multi(fd, i2c_addr, reg_address, &value, 1));
 }
 
 uint8_t RdMulti(
