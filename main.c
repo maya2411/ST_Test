@@ -13,8 +13,8 @@
 #define PRX_NUM 4
 
 typedef enum E_I2C_BUS {
-    E_I2C_BUS_BACK,
-    E_I2C_BUS_FRONT,
+    E_I2C_BUS_BACK, // "/dev/i2c-0"
+    E_I2C_BUS_FRONT,// "/dev/i2c-2"
     E_I2C_BUS_NUM
 }E_PRX_TYPE;
 
@@ -188,7 +188,7 @@ int main()
                 return status;
             }
 
-            sleep(5);
+            sleep(1);
             status = vl53l5cx_set_power_mode(&myDev[i2c_bus][index], VL53L5CX_POWER_MODE_WAKEUP);
             if(status)
             {
@@ -321,9 +321,6 @@ void ranging_loop(u_int8_t i2c_bus,u_int8_t prox_index) {
                 }
 
             }
-
-
-
     //                printf("Zone : %3d, Status : %3u, Distance : %4d mm\n",
     //                    i,
     //                    Results.target_status[VL53L5CX_NB_TARGET_PER_ZONE*i],
