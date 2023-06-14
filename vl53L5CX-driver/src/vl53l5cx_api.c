@@ -62,6 +62,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "vl53l5cx_api.h"
 #include "vl53l5cx_buffers.h"
 
@@ -274,14 +275,17 @@ uint8_t vl53l5cx_is_alive(
 	status |= RdByte(&(p_dev->platform), 1, &revision_id);
 	status |= WrByte(&(p_dev->platform), 0x7fff, 0x02);
 
-	if((device_id == (uint8_t)0xF0) && (revision_id == (uint8_t)0x02))
-	{
-		*p_is_alive = 1;
-	}
-	else
-	{
-		*p_is_alive = 0;
-	}
+    printf(" is_alive for platform %d, add %u :\n", p_dev->platform.fd,p_dev->platform.address);
+    printf("is_alive returned: device_id %u, revision_id %u \n", device_id, revision_id);
+
+    if((device_id == (uint8_t)0xF0) && (revision_id == (uint8_t)0x02))
+    {
+        *p_is_alive = 1;
+    }
+    else
+    {
+        *p_is_alive = 0;
+    }
 
 	return status;
 }

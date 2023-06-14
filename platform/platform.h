@@ -261,10 +261,9 @@ int32_t vl53l5cx_comms_close(VL53L5CX_Platform * p_platform);
 
 /**
  * @brief General I2C communication channel initialization
- * @param (int) *fd : pointer on a I2C channel descriptor
  * @param const char* p_i2cbusName - forexample "/dev/i2c-0"
- * @return (uint8_t) status : 0 if OK
+ * @return (int) file descriptor : -1 for error, else OK FD
  */
-int32_t i2c_comms_init(int* fd, const char* p_i2cbusName);
+int i2c_fd_init(const char* p_i2cbusName);
 
 #endif	// _PLATFORM_H_

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.5.2, 2023-05-24T14:50:47. -->
+<!-- Written by QtCreator 4.5.2, 2023-06-14T08:30:57. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -278,7 +278,7 @@
      </valuemap>
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.2">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
-      <value type="QString" key="ProjectExplorer.ProcessStep.Arguments">/home/labuser/BC2/ST_Proximity/ST_Test/ST_Test root@192.168.43.102:/home/root/</value>
+      <value type="QString" key="ProjectExplorer.ProcessStep.Arguments">/home/labuser/GitRepos/ST_Test/ST_Test root@192.168.43.100:/home/root/</value>
       <value type="QString" key="ProjectExplorer.ProcessStep.Command">scp</value>
       <value type="QString" key="ProjectExplorer.ProcessStep.WorkingDirectory">%{buildDir}</value>
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Custom Process Step</value>

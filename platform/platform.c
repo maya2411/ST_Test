@@ -93,17 +93,17 @@ struct comms_struct {
 };
 #endif
 
-int32_t i2c_comms_init(int* fd, const char* p_i2cbusName)
+int i2c_fd_init(const char* p_i2cbusName)
 {
-    fd = open(p_i2cbusName, O_RDONLY);
+    int fd = open(p_i2cbusName, O_RDONLY);
     if (fd == -1) {
-        LOG("Failed to open device\n");
-        return VL53L5CX_COMMS_ERROR;
+        LOG("Failed to open device %s \n", p_i2cbusName);
+    }
+    else {
+        LOG("Opened I2C BUS  %s. FileDesc. Number = %d\n", p_i2cbusName, fd);
     }
 
-    LOG("Opened I2C BUS FileDesc. Number = %d\n", fd);
-
-    return 0;
+    return fd;
 }
 
 int32_t vl53l5cx_comms_init(VL53L5CX_Platform * p_platform, uint16_t addr)
@@ -125,7 +125,7 @@ int32_t vl53l5cx_comms_init(VL53L5CX_Platform * p_platform, uint16_t addr)
 	}
 #endif
 
-    LOG(" vl53l5cx_comms_init() on address %d success \n", addr);
+    LOG(" vl53l5cx_comms_init() on address 0x%x success \n", addr);
 
 	return 0;
 }
